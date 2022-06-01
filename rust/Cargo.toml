@@ -21,7 +21,7 @@ base58 = "0.1.0"
 sha2 = "0.9"
 hdwallet = "0.3.1"
 ripemd = "0.1"
-secp256k1 = "0.20"
+secp256k1 = "0.21"
 time = "0.2"
 num-bigint = "0.3.3"
 ##############################################################
@@ -39,10 +39,10 @@ lto = true
 
 [patch.crates-io]
 
-zcash_client_sqlite = { git = "https://github.com/zcash/librustzcash.git", rev = "8101b1a035205831469bda3402534ce21a69c611" }
-zcash_client_backend = { git = "https://github.com/zcash/librustzcash.git", rev = "8101b1a035205831469bda3402534ce21a69c611" }
-zcash_primitives = { git = "https://github.com/zcash/librustzcash.git", rev = "8101b1a035205831469bda3402534ce21a69c611" }
-zcash_proofs = { git = "https://github.com/zcash/librustzcash.git", rev = "8101b1a035205831469bda3402534ce21a69c611" }
+zcash_client_sqlite = { git = "https://github.com/zcash/librustzcash.git", rev = "73d9395c9d3c5fa81fc7becd363a2c1a51772a76" }
+zcash_client_backend = { git = "https://github.com/zcash/librustzcash.git", rev = "73d9395c9d3c5fa81fc7becd363a2c1a51772a76" }
+zcash_primitives = { git = "https://github.com/zcash/librustzcash.git", rev = "73d9395c9d3c5fa81fc7becd363a2c1a51772a76" }
+zcash_proofs = { git = "https://github.com/zcash/librustzcash.git", rev = "73d9395c9d3c5fa81fc7becd363a2c1a51772a76" }
 
 
 [features]

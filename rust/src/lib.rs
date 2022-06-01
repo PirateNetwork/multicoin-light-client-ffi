@@ -8,6 +8,7 @@ use std::os::unix::ffi::OsStrExt;
 use std::path::Path;
 use std::slice;
 use std::str::FromStr;
+use std::convert::TryInto;
 use zcash_client_backend::{
     address::RecipientAddress,
     data_api::{
@@ -36,7 +37,7 @@ use zcash_client_sqlite::{
 };
 use zcash_primitives::consensus::Network::{MainNetwork, TestNetwork};
 
-use secp256k1::key::PublicKey;
+use secp256k1::PublicKey;
 use sha2::{Digest as Sha2Digest, Sha256};
 use std::convert::TryFrom;
 use zcash_client_backend::data_api::WalletReadTransparent;
@@ -228,9 +229,7 @@ pub extern "C" fn zcashlc_init_accounts_table_with_keys(
         let ufvks = slice
             .iter()
             .map(|x| {
-                ufvk_from_ffi(&network, x).ok_or(format_err!(
-                    "Error decoding UFVK from serialized representation."
-                ))
+                ufvk_from_ffi(&network, x)
             })
             .collect::<Result<Vec<_>, _>>()?;
 
@@ -323,13 +322,12 @@ fn ufvk_to_ffi(network: &Network, ufvk: &UnifiedFullViewingKey) -> FFIUnifiedVie
         extpub: encoded_pubkey.unwrap_or(std::ptr::null_mut()),
     }
 }
-use std::convert::TryInto;
+
 
 fn ufvk_from_ffi(
     network: &Network,
     ffiufvk: &FFIUnifiedViewingKey,
-) -> Option<UnifiedFullViewingKey> {
-    //TODO
+) -> Result<UnifiedFullViewingKey, failure::Error> {
     let vkstr_ref = unsafe { ffiufvk.extfvk.as_ref() };
 
     let vkstr = unsafe { CStr::from_ptr(vkstr_ref.unwrap()).to_str().unwrap() };
@@ -344,12 +342,15 @@ fn ufvk_from_ffi(
     let extpub_bytes = if extpub_bytes.len() == 65 {
         extpub_bytes.as_slice().try_into().unwrap()
     } else {
-        return None;
+        return Err(format_err!("ExtPub bytes must be exactly 65."));
     };
 
     let pubkey = AccountPubKey::deserialize(extpub_bytes).unwrap();
 
-    UnifiedFullViewingKey::new(AccountId::from(ffiufvk.account_id), Some(pubkey), extfvk)
+   match  UnifiedFullViewingKey::new(AccountId::from(ffiufvk.account_id), Some(pubkey), extfvk) {
+       Some(uvk) => Ok(uvk),
+       None => Err(format_err!("Unable to derive Unified Full Viewing Key"))
+   }
 }
 
 fn uvks_to_ffi<I: IntoIterator<Item = UnifiedFullViewingKey>>(
@@ -492,7 +493,7 @@ pub unsafe extern "C" fn zcashlc_derive_shielded_address_from_seed(
 /// This function should be removed from the FFI for NU5.
 /// It was ported for compatibility reasons
 fn derive_transparent_address_from_public_key(
-    public_key: &secp256k1::key::PublicKey,
+    public_key: &secp256k1::PublicKey,
 ) -> TransparentAddress {
     TransparentAddress::PublicKey(
         *ripemd::Ripemd160::digest(Sha256::digest(&public_key.serialize())).as_ref(),
