@@ -1,5 +1,5 @@
 [package]
-name = "libzcashlc"
+name = "libpiratelc"
 version = "0.0.8"
 authors = ["Jack Grigg <jack@z.cash>",
             "Francisco Gindre <francisco@z.cash>",
@@ -37,7 +37,7 @@ num-bigint = "0.3.3"
 cbindgen = "0.14"
 
 [lib]
-name = "zcashlc"
+name = "piratelc"
 path = "src/lib.rs"
 crate-type = ["staticlib"]
 
@@ -49,10 +49,10 @@ lto = true
 # https://github.com/zcash/librustzcash/pull/555
 # https://github.com/zcash/librustzcash/pull/558
 [patch.crates-io]
-zcash_client_backend = { git = 'https://github.com/zcash/librustzcash.git', rev='0a1ed9b8acf336bdc20ba49083c66f114ecf6877' }
-zcash_client_sqlite = { git = 'https://github.com/zcash/librustzcash.git', rev='0a1ed9b8acf336bdc20ba49083c66f114ecf6877' }
-zcash_primitives = { git = 'https://github.com/zcash/librustzcash.git', rev='0a1ed9b8acf336bdc20ba49083c66f114ecf6877' }
-zcash_proofs = { git = 'https://github.com/zcash/librustzcash.git', rev='0a1ed9b8acf336bdc20ba49083c66f114ecf6877' }
+zcash_client_backend = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
+zcash_client_sqlite = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
+zcash_primitives = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
+zcash_proofs = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
 
 [features]
 mainnet = ["zcash_client_sqlite/mainnet"]

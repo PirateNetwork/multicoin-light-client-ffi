@@ -16,7 +16,7 @@ Most of the building is done with the rust compiler, and depending on the target
 
 ### XCFramework
 
-Currently the only build product that is supported. This can be built with `make xcframework` and the result will be in `releases/XCFramework/libzcashlc.xcframework`.
+Currently the only build product that is supported. This can be built with `make xcframework` and the result will be in `releases/XCFramework/libpiratelc.xcframework`.
 
 Depending on what state the intermediate build products might be in, you may first want to do `make clean` to do a clean build.
 
@@ -33,6 +33,6 @@ Depending on what state the intermediate build products might be in, you may fir
 ### CocoaPods
 
 1. All of the steps from the `Swift Package Manager` release process above.
-2. Update `s.version` in `libzcashlc.podspec` to the new release version.
-3. (assuming you have the `pod` command) `pod trunk push libzcashlc.podspec`
+2. Update `s.version` in `libpiratelc.podspec` to the new release version.
+3. (assuming you have the `pod` command) `pod trunk push libpiratelc.podspec`
 

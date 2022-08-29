@@ -98,26 +98,26 @@ fn block_db(cache_db: *const u8,
 
 /// Returns the length of the last error message to be logged.
 #[no_mangle]
-pub extern "C" fn zcashlc_last_error_length() -> i32 {
+pub extern "C" fn piratelc_last_error_length() -> i32 {
     ffi_helpers::error_handling::last_error_length()
 }
 
 /// Copies the last error message into the provided allocated buffer.
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_error_message_utf8(buf: *mut c_char, length: i32) -> i32 {
+pub unsafe extern "C" fn piratelc_error_message_utf8(buf: *mut c_char, length: i32) -> i32 {
     ffi_helpers::error_handling::error_message_utf8(buf, length)
 }
 
 /// Clears the record of the last error message.
 #[no_mangle]
-pub extern "C" fn zcashlc_clear_last_error() {
+pub extern "C" fn piratelc_clear_last_error() {
     ffi_helpers::error_handling::clear_last_error()
 }
 
 /// Sets up the internal structure of the data database.
 #[no_mangle]
-pub extern "C" fn zcashlc_init_data_database(
-    db_data: *const u8, 
+pub extern "C" fn piratelc_init_data_database(
+    db_data: *const u8,
     db_data_len: usize,
     network_id: u32,
 ) -> i32 {
@@ -140,9 +140,9 @@ pub extern "C" fn zcashlc_init_data_database(
 /// Returns the ExtendedSpendingKeys for the accounts. The caller should store these
 /// securely for use while spending.
 ///
-/// Call `zcashlc_vec_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_vec_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub extern "C" fn zcashlc_init_accounts_table(
+pub extern "C" fn piratelc_init_accounts_table(
     db_data: *const u8,
     db_data_len: usize,
     seed: *const u8,
@@ -197,9 +197,9 @@ pub extern "C" fn zcashlc_init_accounts_table(
 }
 
 /// Initialises the data database with the given extended full viewing keys
-/// Call `zcashlc_vec_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_vec_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub extern "C" fn zcashlc_init_accounts_table_with_keys(
+pub extern "C" fn piratelc_init_accounts_table_with_keys(
     db_data: *const u8,
     db_data_len: usize,
     uvks: *mut FFIUVKBoxedSlice,
@@ -245,9 +245,9 @@ pub extern "C" fn zcashlc_init_accounts_table_with_keys(
 /// Returns the ExtendedSpendingKeys for the accounts. The caller should store these
 /// securely for use while spending.
 ///
-/// Call `zcashlc_vec_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_vec_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_extended_spending_keys(
+pub unsafe extern "C" fn piratelc_derive_extended_spending_keys(
     seed: *const u8,
     seed_len: usize,
     accounts: i32,
@@ -333,7 +333,7 @@ fn uvk_vec_to_ffi (v: Vec<FFIUnifiedViewingKey>)
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_free_uvk_array(uvks: *mut FFIUVKBoxedSlice)
+pub unsafe extern "C" fn piratelc_free_uvk_array(uvks: *mut FFIUVKBoxedSlice)
 {
     if uvks.is_null() {
         return;
@@ -347,7 +347,7 @@ pub unsafe extern "C" fn zcashlc_free_uvk_array(uvks: *mut FFIUVKBoxedSlice)
 
 
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_unified_viewing_keys_from_seed(
+pub unsafe extern "C" fn piratelc_derive_unified_viewing_keys_from_seed(
     seed: *const u8,
     seed_len: usize,
     accounts: i32,
@@ -379,9 +379,9 @@ pub unsafe extern "C" fn zcashlc_derive_unified_viewing_keys_from_seed(
 /// Returns the Extended Full Viewing Keys for the accounts. The caller should store these
 /// securely
 ///
-/// Call `zcashlc_vec_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_vec_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_extended_full_viewing_keys(
+pub unsafe extern "C" fn piratelc_derive_extended_full_viewing_keys(
     seed: *const u8,
     seed_len: usize,
     accounts: i32,
@@ -423,9 +423,9 @@ pub unsafe extern "C" fn zcashlc_derive_extended_full_viewing_keys(
     unwrap_exc_or_null(res)
 }
 /// derives a shielded address from the given seed.
-/// call zcashlc_string_free with the returned pointer when done using it
+/// call piratelc_string_free with the returned pointer when done using it
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_shielded_address_from_seed(
+pub unsafe extern "C" fn piratelc_derive_shielded_address_from_seed(
     seed: *const u8,
     seed_len: usize,
     account_index: i32,
@@ -449,10 +449,10 @@ pub unsafe extern "C" fn zcashlc_derive_shielded_address_from_seed(
     unwrap_exc_or_null(res)
 }
 
-/// derives a shielded address from the given viewing key. 
-/// call zcashlc_string_free with the returned pointer when done using it
+/// derives a shielded address from the given viewing key.
+/// call piratelc_string_free with the returned pointer when done using it
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_public_key(
+pub unsafe extern "C" fn piratelc_derive_transparent_address_from_public_key(
     pubkey: *const c_char,
     network_id: u32,
 ) -> *mut c_char {
@@ -469,10 +469,10 @@ pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_public_key(
     unwrap_exc_or_null(res)
 }
 
-/// derives a shielded address from the given viewing key. 
-/// call zcashlc_string_free with the returned pointer when done using it
+/// derives a shielded address from the given viewing key.
+/// call piratelc_string_free with the returned pointer when done using it
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_shielded_address_from_viewing_key(
+pub unsafe extern "C" fn piratelc_derive_shielded_address_from_viewing_key(
     extfvk: *const c_char,
     network_id: u32,
 ) -> *mut c_char {
@@ -502,9 +502,9 @@ pub unsafe extern "C" fn zcashlc_derive_shielded_address_from_viewing_key(
 }
 
 /// derives a shielded address from the given extended full viewing key.
-/// call zcashlc_string_free with the returned pointer when done using it
+/// call piratelc_string_free with the returned pointer when done using it
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_extended_full_viewing_key(
+pub unsafe extern "C" fn piratelc_derive_extended_full_viewing_key(
     extsk: *const c_char,
     network_id: u32,
 ) -> *mut c_char {
@@ -542,7 +542,7 @@ pub unsafe extern "C" fn zcashlc_derive_extended_full_viewing_key(
 /// This enables a newly-created database to be immediately-usable, without needing to
 /// synchronise historic blocks.
 #[no_mangle]
-pub extern "C" fn zcashlc_init_blocks_table(
+pub extern "C" fn piratelc_init_blocks_table(
     db_data: *const u8,
     db_data_len: usize,
     height: i32,
@@ -578,9 +578,9 @@ pub extern "C" fn zcashlc_init_blocks_table(
 
 /// Returns the address for the account.
 ///
-/// Call `zcashlc_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_address(
+pub extern "C" fn piratelc_get_address(
     db_data: *const u8,
     db_data_len: usize,
     account: i32,
@@ -617,7 +617,7 @@ pub extern "C" fn zcashlc_get_address(
 /// Returns false in any other case
 /// Errors when the provided address belongs to another network
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_is_valid_shielded_address(address: *const c_char,
+pub unsafe extern "C" fn piratelc_is_valid_shielded_address(address: *const c_char,
                                                            network_id: u32) -> bool {
     let res = catch_panic(|| {
         let network = parse_network(network_id)?;
@@ -641,7 +641,7 @@ fn is_valid_shielded_address(address: &str,
 /// Returns true when the address is valid and transparent.
 /// Returns false in any other case
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_is_valid_transparent_address(address: *const c_char,
+pub unsafe extern "C" fn piratelc_is_valid_transparent_address(address: *const c_char,
                                                               network_id: u32) -> bool {
     let res = catch_panic(|| {
         let network = parse_network(network_id)?;
@@ -652,7 +652,7 @@ pub unsafe extern "C" fn zcashlc_is_valid_transparent_address(address: *const c_
 }
 /// returns whether the given viewing key is valid or not
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_is_valid_viewing_key(key: *const c_char,
+pub unsafe extern "C" fn piratelc_is_valid_viewing_key(key: *const c_char,
                                                       network_id: u32) -> bool {
     let res = catch_panic(|| {
         let network = parse_network(network_id)?;
@@ -682,7 +682,7 @@ fn is_valid_transparent_address(address: &str,
 
 /// Returns the balance for the account, including all unspent notes that we know about.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_balance(
+pub extern "C" fn piratelc_get_balance(
     db_data: *const u8,
     db_data_len: usize, 
     account: i32,
@@ -716,7 +716,7 @@ pub extern "C" fn zcashlc_get_balance(
 /// Returns the verified balance for the account, which ignores notes that have been
 /// received too recently and are not yet deemed spendable.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_verified_balance(
+pub extern "C" fn piratelc_get_verified_balance(
     db_data: *const u8,
     db_data_len: usize,
     account: i32,
@@ -750,7 +750,7 @@ pub extern "C" fn zcashlc_get_verified_balance(
 /// Returns the verified transparent balance for the address, which ignores utxos that have been
 /// received too recently and are not yet deemed spendable.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_verified_transparent_balance(
+pub extern "C" fn piratelc_get_verified_transparent_balance(
     db_data: *const u8,
     db_data_len: usize,
     address: *const c_char,
@@ -786,7 +786,7 @@ pub extern "C" fn zcashlc_get_verified_transparent_balance(
 /// Returns the verified transparent balance for the address, which ignores utxos that have been
 /// received too recently and are not yet deemed spendable.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_total_transparent_balance(
+pub extern "C" fn piratelc_get_total_transparent_balance(
     db_data: *const u8,
     db_data_len: usize,
     address: *const c_char,
@@ -825,9 +825,9 @@ pub extern "C" fn zcashlc_get_total_transparent_balance(
 /// The note is identified by its row index in the `received_notes` table within the data
 /// database.
 ///
-/// Call `zcashlc_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_received_memo_as_utf8(
+pub extern "C" fn piratelc_get_received_memo_as_utf8(
     db_data: *const u8,
     db_data_len: usize,
     id_note: i64,
@@ -857,9 +857,9 @@ pub extern "C" fn zcashlc_get_received_memo_as_utf8(
 /// The note is identified by its row index in the `sent_notes` table within the data
 /// database.
 ///
-/// Call `zcashlc_string_free` on the returned pointer when you are finished with it.
+/// Call `piratelc_string_free` on the returned pointer when you are finished with it.
 #[no_mangle]
-pub extern "C" fn zcashlc_get_sent_memo_as_utf8(
+pub extern "C" fn piratelc_get_sent_memo_as_utf8(
     db_data: *const u8,
     db_data_len: usize,
     id_note: i64,
@@ -901,7 +901,7 @@ pub extern "C" fn zcashlc_get_sent_memo_as_utf8(
 ///
 /// This function does not mutate either of the databases.
 #[no_mangle]
-pub extern "C" fn zcashlc_validate_combined_chain(
+pub extern "C" fn piratelc_validate_combined_chain(
     db_cache: *const u8,
     db_cache_len: usize,
     db_data: *const u8,
@@ -935,7 +935,7 @@ pub extern "C" fn zcashlc_validate_combined_chain(
     unwrap_exc_or_null(res)
 }
 #[no_mangle]
-pub extern "C" fn zcashlc_get_nearest_rewind_height(
+pub extern "C" fn piratelc_get_nearest_rewind_height(
     db_data: *const u8,
     db_data_len: usize,
     height: i32,
@@ -969,7 +969,7 @@ pub extern "C" fn zcashlc_get_nearest_rewind_height(
 /// If the requested height is greater than or equal to the height of the last scanned
 /// block, this function does nothing.
 #[no_mangle]
-pub extern "C" fn zcashlc_rewind_to_height(
+pub extern "C" fn piratelc_rewind_to_height(
     db_data: *const u8,
     db_data_len: usize,
     height: i32,
@@ -997,12 +997,12 @@ pub extern "C" fn zcashlc_rewind_to_height(
 ///
 /// For brand-new light client databases, this function starts scanning from the Sapling
 /// activation height. This height can be fast-forwarded to a more recent block by calling
-/// [`zcashlc_init_blocks_table`] before this function.
+/// [`piratelc_init_blocks_table`] before this function.
 ///
 /// Scanned blocks are required to be height-sequential. If a block is missing from the
 /// cache, an error will be signalled.
 #[no_mangle]
-pub extern "C" fn zcashlc_scan_blocks(
+pub extern "C" fn piratelc_scan_blocks(
     db_cache: *const u8,
     db_cache_len: usize,
     db_data: *const u8,
@@ -1029,7 +1029,7 @@ pub extern "C" fn zcashlc_scan_blocks(
 }
 
 #[no_mangle]
-pub extern "C" fn zcashlc_put_utxo(
+pub extern "C" fn piratelc_put_utxo(
     db_data: *const u8,
     db_data_len: usize,
     address_str: *const c_char,
@@ -1073,7 +1073,7 @@ pub extern "C" fn zcashlc_put_utxo(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_clear_utxos(
+pub unsafe extern "C" fn piratelc_clear_utxos(
     db_data: *const u8,
     db_data_len: usize,
     taddress: *const c_char,
@@ -1096,7 +1096,7 @@ pub unsafe extern "C" fn zcashlc_clear_utxos(
 }
 
 #[no_mangle]
-pub extern "C" fn zcashlc_decrypt_and_store_transaction(
+pub extern "C" fn piratelc_decrypt_and_store_transaction(
     db_data: *const u8,
     db_data_len: usize,
     tx: *const u8,
@@ -1128,7 +1128,7 @@ pub extern "C" fn zcashlc_decrypt_and_store_transaction(
 /// Do not call this multiple times in parallel, or you will generate transactions that
 /// double-spend the same notes.
 #[no_mangle]
-pub extern "C" fn zcashlc_create_to_address(
+pub extern "C" fn piratelc_create_to_address(
     db_data: *const u8,
     db_data_len: usize,
     account: i32,
@@ -1213,7 +1213,7 @@ pub extern "C" fn zcashlc_create_to_address(
 }
 
 #[no_mangle]
-pub extern "C" fn zcashlc_branch_id_for_height(
+pub extern "C" fn piratelc_branch_id_for_height(
     height: i32,
     network_id: u32,
 ) -> i32 {
@@ -1226,9 +1226,9 @@ pub extern "C" fn zcashlc_branch_id_for_height(
     unwrap_exc_or(res, -1)
 }
 
-/// Frees strings returned by other zcashlc functions.
+/// Frees strings returned by other piratelc functions.
 #[no_mangle]
-pub extern "C" fn zcashlc_string_free(s: *mut c_char) {
+pub extern "C" fn piratelc_string_free(s: *mut c_char) {
     unsafe {
         if s.is_null() {
             return;
@@ -1237,9 +1237,9 @@ pub extern "C" fn zcashlc_string_free(s: *mut c_char) {
     };
 }
 
-/// Frees vectors of strings returned by other zcashlc functions.
+/// Frees vectors of strings returned by other piratelc functions.
 #[no_mangle]
-pub extern "C" fn zcashlc_vec_string_free(v: *mut *mut c_char, len: usize, capacity: usize) {
+pub extern "C" fn piratelc_vec_string_free(v: *mut *mut c_char, len: usize, capacity: usize) {
     unsafe {
         if v.is_null() {
             return;
@@ -1257,7 +1257,7 @@ pub extern "C" fn zcashlc_vec_string_free(v: *mut *mut c_char, len: usize, capac
 
 /// Derives a transparent private key from seed
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_transparent_private_key_from_seed(
+pub unsafe extern "C" fn piratelc_derive_transparent_private_key_from_seed(
     seed: *const u8,
     seed_len: usize,
     account: i32,
@@ -1288,7 +1288,7 @@ pub unsafe extern "C" fn zcashlc_derive_transparent_private_key_from_seed(
 
 /// Derives a transparent address from the given seed 
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_seed(
+pub unsafe extern "C" fn piratelc_derive_transparent_address_from_seed(
     seed: *const u8,
     seed_len: usize,
     account: i32,
@@ -1320,7 +1320,7 @@ pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_seed(
 
 /// Derives a transparent address from the given secret key enconded as a WIF string
 #[no_mangle]
-pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_secret_key(
+pub unsafe extern "C" fn piratelc_derive_transparent_address_from_secret_key(
     tsk: *const c_char,
     network_id: u32,
 ) -> *mut c_char {
@@ -1340,7 +1340,7 @@ pub unsafe extern "C" fn zcashlc_derive_transparent_address_from_secret_key(
 }
 
 #[no_mangle]
-pub extern "C" fn zcashlc_shield_funds(
+pub extern "C" fn piratelc_shield_funds(
     db_data: *const u8,
     db_data_len: usize,
     account: i32,
