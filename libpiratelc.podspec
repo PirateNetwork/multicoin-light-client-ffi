@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'libpiratelc'
-    s.version          = '0.0.4'
+    s.version          = '0.0.5'
     s.summary          = 'Rust core for Pirate clients'
     s.homepage         = 'https://github.com/piratenetwork/pirate-light-client-ffi'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }

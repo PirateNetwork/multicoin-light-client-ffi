@@ -49,10 +49,10 @@ lto = true
 # https://github.com/zcash/librustzcash/pull/555
 # https://github.com/zcash/librustzcash/pull/558
 [patch.crates-io]
-zcash_client_backend = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
-zcash_client_sqlite = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
-zcash_primitives = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
-zcash_proofs = {git = 'https://github.com/piratenetwork/librustzcash', rev= '190c19e'}
+zcash_client_backend = {git = 'https://github.com/piratenetwork/librustzcash', rev= '6cb3356'}
+zcash_client_sqlite = {git = 'https://github.com/piratenetwork/librustzcash', rev= '6cb3356'}
+zcash_primitives = {git = 'https://github.com/piratenetwork/librustzcash', rev= '6cb3356'}
+zcash_proofs = {git = 'https://github.com/piratenetwork/librustzcash', rev= '6cb3356'}
 
 [features]
 mainnet = ["zcash_client_sqlite/mainnet"]
