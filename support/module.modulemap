@@ -1,5 +1,5 @@
-framework module libzcashlc {
-  umbrella header "zcashlc.h"
+framework module libpiratelc {
+  umbrella header "piratelc.h"
   
   export *
   module * { export * }

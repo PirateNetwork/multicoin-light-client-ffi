@@ -29,6 +29,6 @@ fn main() {
         .with_language(cbindgen::Language::C)
         .generate()
     {
-        b.write_to_file("target/Headers/zcashlc.h");
+        b.write_to_file("target/Headers/piratelc.h");
     }
 }

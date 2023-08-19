@@ -3,11 +3,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "zcash-light-client-ffi",
+    name: "libpiratelc",
     products: [
         .library(
-            name: "libzcashlc",
-            targets: ["libzcashlc"]
+            name: "libpiratelc",
+            targets: ["libpiratelc"]
         ),
     ],
     dependencies: [
@@ -15,8 +15,8 @@ let package = Package(
     ],
     targets: [
         .binaryTarget(
-            name: "libzcashlc",
-            path: "releases/XCFramework/libzcashlc.xcframework"
+            name: "libpiratelc",
+            path: "releases/XCFramework/libpiratelc.xcframework"
         )
     ]
 )

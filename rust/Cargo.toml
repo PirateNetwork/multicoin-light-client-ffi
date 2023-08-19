@@ -1,9 +1,10 @@
 [package]
-name = "libzcashlc"
+name = "libpiratelc"
 version = "0.3.1"
 authors = [
     "Jack Grigg <jack@z.cash>",
     "Francisco Gindre <francisco@z.cash>",
+    "Forge"
 ]
 license = "MIT"
 edition = "2021"
@@ -16,7 +17,6 @@ memuse = "0.2.1"
 schemer = "0.2.1"
 secp256k1 = "0.21"
 secrecy = "0.8"
-orchard = { version = "0.4", default-features = false }
 zcash_address = { version = "0.2" }
 zcash_client_backend = { version = "0.9.0", features = ["transparent-inputs", "unstable"] }
 zcash_client_sqlite = { version = "0.7.0", features = ["transparent-inputs", "unstable"] }
@@ -44,12 +44,23 @@ cbindgen = "0.24"
 cc = "1.0"
 
 [lib]
-name = "zcashlc"
+name = "piratelc"
 path = "src/lib.rs"
 crate-type = ["staticlib"]
 
 [profile.release]
 lto = true
+
+# Revision corresponds to the partially-complete auto-shielding version, with the NU5
+# consensus branch ID and activation heights, and v5 transaction parsing, backported.
+# https://github.com/zcash/librustzcash/pull/555
+# https://github.com/zcash/librustzcash/pull/558
+[patch.crates-io]
+zcash_client_backend = {git = 'https://github.com/piratenetwork/librustzcash', rev= '8c121ca621e41bbd952de11c27d896be9977e35e'}
+zcash_client_sqlite = {git = 'https://github.com/piratenetwork/librustzcash', rev= '8c121ca621e41bbd952de11c27d896be9977e35e'}
+zcash_primitives = {git = 'https://github.com/piratenetwork/librustzcash', rev= '8c121ca621e41bbd952de11c27d896be9977e35e'}
+zcash_proofs = {git = 'https://github.com/piratenetwork/librustzcash', rev= '8c121ca621e41bbd952de11c27d896be9977e35e'}
+zcash_address = {git = 'https://github.com/piratenetwork/librustzcash', rev= '8c121ca621e41bbd952de11c27d896be9977e35e'}
 
 [features]
 

@@ -28,7 +28,7 @@ going forward.
 
 # FsBlock Db implementation and removal of BlockBb cache.
 
-Implement `zcashlc_init_block_metadata_db`, `zcashlc_write_block_metadata`, `zcashlc_free_block_meta, `zcashlc_free_blocks_meta`
+Implement `piratelc_init_block_metadata_db`, `piratelc_write_block_metadata`, `piratelc_free_block_meta, `piratelc_free_blocks_meta`
 
 Declare `repr(C)` structs for FFI:
  - `FFIBlockMeta`: a block metadata row
@@ -72,51 +72,51 @@ of unified spending keys locally on device, should handle them with the
 same level of care and secure storage policies as the wallet seed itself. 
 
 ## Added
-- `zcashlc_create_account` provides new account creation functionality.
+- `piratelc_create_account` provides new account creation functionality.
   This is now the preferred API for the creation of new spend authorities
-  within the wallet; `zcashlc_init_accounts_table_with_keys` remains available
+  within the wallet; `piratelc_init_accounts_table_with_keys` remains available
   but should only be used if it is necessary to add multiple accounts at once,
   such as when restoring a wallet from seed where multiple accounts had been
   previously derived.
 
 Key derivation API:
-- `zcashlc_derive_spending_key`
-- `zcashlc_spending_key_to_full_viewing_key`
+- `piratelc_derive_spending_key`
+- `piratelc_spending_key_to_full_viewing_key`
 
 Address retrieval, derivation, and verification API:
-- `zcashlc_get_current_address`
-- `zcashlc_get_next_available_address`
-- `zcashlc_get_sapling_receiver_for_unified_address`
-- `zcashlc_get_transparent_receiver_for_unified_address`
-- `zcashlc_is_valid_unified_address`
-- `zcashlc_is_valid_unified_full_viewing_key`
-- `zcashlc_list_transparent_receivers`
-- `zcashlc_get_typecodes_for_unified_address_receivers`
-- `zcashlc_free_typecodes`
-- `zcashlc_get_address_metadata`
+- `piratelc_get_current_address`
+- `piratelc_get_next_available_address`
+- `piratelc_get_sapling_receiver_for_unified_address`
+- `piratelc_get_transparent_receiver_for_unified_address`
+- `piratelc_is_valid_unified_address`
+- `piratelc_is_valid_unified_full_viewing_key`
+- `piratelc_list_transparent_receivers`
+- `piratelc_get_typecodes_for_unified_address_receivers`
+- `piratelc_free_typecodes`
+- `piratelc_get_address_metadata`
 Balance API:
-- `zcashlc_get_verified_transparent_balance_for_account`
-- `zcashlc_get_total_transparent_balance_for_account`
+- `piratelc_get_verified_transparent_balance_for_account`
+- `piratelc_get_total_transparent_balance_for_account`
 
 New memo access API:
-- `zcashlc_get_received_memo`
-- `zcashlc_get_sent_memo`
+- `piratelc_get_received_memo`
+- `piratelc_get_sent_memo`
 
 ## Changed
-- `zcashlc_create_to_address` now has been changed as follows:
+- `piratelc_create_to_address` now has been changed as follows:
   - it no longer takes the string encoding of a Sapling extended spending key
     as spend authority; instead, it takes the binary encoded form of a unified
-    spending key as returned by `zcashlc_create_account` or 
-    `zcashlc_derive_spending_key`. See the note above.
+    spending key as returned by `piratelc_create_account` or 
+    `piratelc_derive_spending_key`. See the note above.
   - it now takes the minimum number of confirmations used to filter notes to
     spend as an argument.
   - the memo argument is now passed as a potentially-null pointer to an
     `[u8; 512]` instead of a C string.
-- `zcashlc_shield_funds` has been changed as follows:
+- `piratelc_shield_funds` has been changed as follows:
   - it no longer takes the transparent spending key for a single P2PKH address
     as spend authority; instead, it takes the binary encoded form of a unified
-    spending key as returned by `zcashlc_create_account`
-    or `zcashlc_derive_spending_key`. See the note above.
+    spending key as returned by `piratelc_create_account`
+    or `piratelc_derive_spending_key`. See the note above.
   - the memo argument is now passed as a potentially-null pointer to an
     `[u8; 512]` instead of a C string.
   - it no longer takes a destination address; instead, the internal shielding
@@ -124,41 +124,41 @@ New memo access API:
 - Various changes have been made to correctly implement ZIP 316:
   - `FFIUnifiedViewingKey` now stores an account ID and the encoding of a
     ZIP 316 Unified Full Viewing Key.
-  - `zcashlc_init_accounts_table_with_keys` now takes a slice of ZIP 316 UFVKs.
-- `zcashlc_put_utxo` no longer has an `address_str` argument (the address is
+  - `piratelc_init_accounts_table_with_keys` now takes a slice of ZIP 316 UFVKs.
+- `piratelc_put_utxo` no longer has an `address_str` argument (the address is
   instead inferred from the script).
-- `zcashlc_get_verified_balance` now takes the minimum number of confirmations
+- `piratelc_get_verified_balance` now takes the minimum number of confirmations
   used to filter received notes as an argument.
-- `zcashlc_get_verified_transparent_balance` now takes the minimum number of
+- `piratelc_get_verified_transparent_balance` now takes the minimum number of
   confirmations used to filter received notes as an argument.
-- `zcashlc_get_total_transparent_balance` now returns a balance that includes
+- `piratelc_get_total_transparent_balance` now returns a balance that includes
   all UTXOs including those only in the mempool (i.e. those with 0
   confirmations).
 
 ## Removed
 
 The following spending key derivation APIs have been removed and replaced by
-`zcashlc_derive_spending_key`:
-- `zcashlc_derive_extended_spending_key`
-- `zcashlc_derive_transparent_private_key_from_seed`
-- `zcashlc_derive_transparent_account_private_key_from_seed`
+`piratelc_derive_spending_key`:
+- `piratelc_derive_extended_spending_key`
+- `piratelc_derive_transparent_private_key_from_seed`
+- `piratelc_derive_transparent_account_private_key_from_seed`
 
 The following viewing key APIs have been removed and replaced by
-`zcashlc_spending_key_to_full_viewing_key`:
-- `zcashlc_derive_extended_full_viewing_key`
-- `zcashlc_derive_shielded_address_from_viewing_key`
-- `zcashlc_derive_unified_viewing_keys_from_seed`
+`piratelc_spending_key_to_full_viewing_key`:
+- `piratelc_derive_extended_full_viewing_key`
+- `piratelc_derive_shielded_address_from_viewing_key`
+- `piratelc_derive_unified_viewing_keys_from_seed`
 
 The following address derivation APIs have been removed in favor of
-`zcashlc_get_current_address` and `zcashlc_get_next_available_address`:
-- `zcashlc_get_address`
-- `zcashlc_derive_shielded_address_from_seed`
-- `zcashlc_derive_transparent_address_from_secret_key`
-- `zcashlc_derive_transparent_address_from_seed`
-- `zcashlc_derive_transparent_address_from_public_key`
+`piratelc_get_current_address` and `piratelc_get_next_available_address`:
+- `piratelc_get_address`
+- `piratelc_derive_shielded_address_from_seed`
+- `piratelc_derive_transparent_address_from_secret_key`
+- `piratelc_derive_transparent_address_from_seed`
+- `piratelc_derive_transparent_address_from_public_key`
 
-- `zcashlc_init_accounts_table` has been removed in favor of
-  `zcashlc_create_account`
+- `piratelc_init_accounts_table` has been removed in favor of
+  `piratelc_create_account`
 
 # 0.0.3
 - [#13] Migrate to `zcash/librustzcash` revision with NU5 awareness (#20)

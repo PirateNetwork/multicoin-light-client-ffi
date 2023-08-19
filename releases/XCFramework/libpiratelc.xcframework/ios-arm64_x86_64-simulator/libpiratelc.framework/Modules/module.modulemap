@@ -1,0 +1,6 @@
+framework module libpiratelc {
+  umbrella header "piratelc.h"
+  
+  export *
+  module * { export * }
+}

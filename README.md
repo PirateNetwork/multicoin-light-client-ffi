@@ -1,8 +1,8 @@
-# zcash-light-client-ffi
+# pirate-light-client-ffi
 
 This project is designed for two things:
 
-1. Provide language bindings for the zcash rust library, in the `rust` directory.  
+1. Provide language bindings for the pirate rust library, in the `rust` directory.  
 2. Packaging for common dependency managers within those language eco systems.
 
 Currently implemented is building for apple platforms as an `xcframework` and for distribution via Swift Package Manager.
@@ -12,7 +12,7 @@ Currently implemented is building for apple platforms as an `xcframework` and fo
 Add the package as a dependency
 ````Swift
 dependencies: [
-  .package(url: "https://github.com/zcash-hackworks/zcash-light-client-ffi", from: "0.1.2")
+  .package(url: "https://github.com/piratenetwork/pirate-light-client-ffi", from: "0.1.2")
   // other dependencies
 ]
 ````
@@ -24,7 +24,7 @@ targets: [
         .target(
             name: "MyTarget",
             dependencies: [
-                .product(name: "libzcashlc", package: "zcash-light-client-ffi")
+                .product(name: "libpiratelc", package: "pirate-light-client-ffi")
             ],
 ````
 
@@ -36,7 +36,7 @@ Most of the building is done with the rust compiler, and depending on the target
 
 ### XCFramework
 
-Currently the only build product that is supported. This can be built with `make xcframework` and the result will be in `releases/XCFramework/libzcashlc.xcframework`.
+Currently the only build product that is supported. This can be built with `make xcframework` and the result will be in `releases/XCFramework/libpiratelc.xcframework`.
 
 Depending on what state the intermediate build products might be in, you may first want to do `make clean` to do a clean build.
 
@@ -53,13 +53,3 @@ Depending on what state the intermediate build products might be in, you may fir
 ## License
 
 Licensed under MIT license ([LICENSE](LICENSE) or http://opensource.org/licenses/MIT).
-
-Downstream code forks should note that 'libzcashlc' (and thus XCFramework)
-depends on the 'orchard' crate, which is licensed under the [Bootstrap Open
-Source License](https://github.com/zcash/orchard/blob/main/LICENSE-BOSL).  A
-license exception is provided allowing some derived works that are linked or
-combined with the 'orchard' crate to be copied or distributed under the original
-licenses (in this case MIT), provided that the included portions of the
-'orchard' code remain subject to BOSL.  See
-https://github.com/zcash/orchard/blob/main/COPYING for details of which derived
-works can make use of this exception.
