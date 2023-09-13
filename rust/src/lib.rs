@@ -128,7 +128,7 @@ fn block_db(fsblock_db: *const u8, fsblock_db_len: usize) -> anyhow::Result<FsBl
 #[no_mangle]
 pub extern "C" fn piratelc_init_on_load() {
     // Set up the tracing layers for the Apple OS logging framework.
-    let (log_layer, signpost_layer) = os_log::layers("co.electriccoin.ios", "rust");
+    let (log_layer, signpost_layer) = os_log::layers("piratenetwork.ios", "rust");
 
     // Install the `tracing` subscriber.
     tracing_subscriber::registry()
